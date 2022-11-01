@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Navigation.css";
 import {
   BrowserRouter as Router,
@@ -12,6 +12,13 @@ import AddStudent from "./Features/AddStudent";
 import ReportCard from "./Features/ReportCard";
 
 function Navigation(props) {
+  const [studentsList, setStudents] = useState(props.candidates);
+
+  const handleDelete = (id) => {
+    const newList = studentsList.filter((i) => i.id != id);
+    setStudents(newList);
+  };
+
   return (
     <Router>
       <>
@@ -37,7 +44,13 @@ function Navigation(props) {
           <Switch>
             <Route
               path="/home"
-              render={() => <Home name={props.name} />}
+              render={() => (
+                <Home
+                  data={studentsList}
+                  admin={props.name}
+                  handleDelete={handleDelete}
+                />
+              )}
             ></Route>
             <Route
               path="/addStudent"
