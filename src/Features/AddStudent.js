@@ -1,4 +1,3 @@
-import userEvent from "@testing-library/user-event";
 import React, { useState } from "react";
 import "./Form.css";
 
@@ -8,7 +7,7 @@ function AddStudent(props) {
   function setUpdateStuednt() {
     if (props.match.params.updateId) {
       const updatecand = props.studentsdata.filter(
-        (cand) => cand.id == props.match.params.updateId
+        (cand) => cand.id === props.match.params.updateId
       );
       console.log("Update candidate", updatecand);
       return updatecand[0];
