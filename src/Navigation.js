@@ -16,15 +16,15 @@ function Navigation(props) {
   const [studentsList, setStudents] = useState(props.candidates);
 
   const handleDelete = (id) => {
-    const newList = studentsList.filter((i) => i.id !== id);
+    const newList = studentsList.filter((i) => i.id != id);
     setStudents(newList);
   };
 
   const handleSubmit = (newStudent) => {
     const newCandi = [...studentsList];
-    if (newCandi.find((ele) => ele.id === newStudent.id)) {
+    if (newCandi.find((ele) => ele.id == newStudent.id)) {
       const updatedCandList = newCandi.map((cand) => {
-        if (cand.id === newStudent.id) {
+        if (cand.id == newStudent.id) {
           return newStudent;
         } else {
           return cand;

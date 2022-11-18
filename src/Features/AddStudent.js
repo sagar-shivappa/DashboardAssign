@@ -7,7 +7,7 @@ function AddStudent(props) {
   function setUpdateStuednt() {
     if (props.match.params.updateId) {
       const updatecand = props.studentsdata.filter(
-        (cand) => cand.id === props.match.params.updateId
+        (cand) => cand.id == props.match.params.updateId
       );
       console.log("Update candidate", updatecand);
       return updatecand[0];
@@ -106,7 +106,10 @@ function AddStudent(props) {
     event.preventDefault();
 
     console.log(props);
-    Register.id ? (Register.id = Register.id) : (Register.id = Math.random());
+    //Register.id ? (Register.id = Register.id) : (Register.id = Math.random());
+    if (Register.id == "") {
+      Register.id = Math.random();
+    }
     props.handleSubmit(Register);
     props.history.push("/home");
   };
