@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 
 function Home(props) {
-  const handleDelete = (id) => {
-    props.handleDelete(id);
+  console.log(props);
+  const homeHandleDelete = (id) => {
+    props.handleDelete1(id);
+  };
+  const UpdateHandler = (id) => {
+    props.history.push(`/editStudent/${id}`);
   };
 
   return (
@@ -21,9 +25,9 @@ function Home(props) {
           </tr>
         </thead>
         <tbody>
-          {props.data.map((cand) => {
+          {props.data.map((cand, index) => {
             return (
-              <tr>
+              <tr key={index}>
                 <td>{cand.name}</td>
                 <td>{cand.age}</td>
                 <td>{cand.proffesion}</td>
@@ -31,12 +35,17 @@ function Home(props) {
                 <td>{cand.skills}</td>
 
                 <td>
-                  <button className="btn btn-primary">Update</button>
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => UpdateHandler(cand.id)}
+                  >
+                    Update
+                  </button>
                 </td>
                 <td>
                   <button
                     className="btn btn-danger"
-                    onClick={() => handleDelete(cand.id)}
+                    onClick={() => homeHandleDelete(cand.id)}
                   >
                     Delete
                   </button>

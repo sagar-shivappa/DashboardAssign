@@ -12,11 +12,30 @@ import AddStudent from "./Features/AddStudent";
 import ReportCard from "./Features/ReportCard";
 
 function Navigation(props) {
+  const AppProps = props;
   const [studentsList, setStudents] = useState(props.candidates);
 
   const handleDelete = (id) => {
     const newList = studentsList.filter((i) => i.id != id);
     setStudents(newList);
+  };
+
+  const handleSubmit = (newStudent) => {
+    const newCandi = [...studentsList];
+    if (newCandi.find((ele) => ele.id == newStudent.id)) {
+      const updatedCandList = newCandi.map((cand) => {
+        if (cand.id == newStudent.id) {
+          return newStudent;
+        } else {
+          return cand;
+        }
+      });
+      setStudents(updatedCandList);
+    } else {
+      console.log("New Student");
+      newCandi.push(newStudent);
+      setStudents(newCandi);
+    }
   };
 
   return (
@@ -44,21 +63,39 @@ function Navigation(props) {
           <Switch>
             <Route
               path="/home"
-              render={() => (
+              render={(props) => (
                 <Home
                   data={studentsList}
-                  admin={props.name}
-                  handleDelete={handleDelete}
+                  admin={AppProps.name}
+                  handleDelete1={handleDelete}
+                  {...props}
+                />
+              )}
+            ></Route>
+            <Route
+              path="/editStudent/:updateId"
+              render={(props) => (
+                <AddStudent
+                  name={AppProps.name}
+                  studentsdata={studentsList}
+                  handleSubmit={handleSubmit}
+                  {...props}
                 />
               )}
             ></Route>
             <Route
               path="/addStudent"
-              render={() => <AddStudent name={props.name} />}
+              render={(props) => (
+                <AddStudent
+                  name={AppProps.name}
+                  handleSubmit={handleSubmit}
+                  {...props}
+                />
+              )}
             ></Route>
             <Route
               path="/reportcard"
-              render={() => <ReportCard name={props.name} />}
+              render={() => <ReportCard name={AppProps.name} />}
             ></Route>
             <Route path="/">
               <Redirect to="/home" />
