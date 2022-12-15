@@ -1,7 +1,7 @@
 .side-nav {
   width: 10%;
   height: 100vh;
-  background-color: #1a75ff;
+  background-color: #e60000;
   position: fixed;
   align-items: center;
 }
@@ -21,7 +21,7 @@ div a {
   padding: 15px;
 }
 #content-body h1 {
-  background-color: #ff9900;
+  background-color: #4747d1;
   height: 95px;
   padding: 20px;
 }

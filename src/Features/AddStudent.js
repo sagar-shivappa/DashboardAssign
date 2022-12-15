@@ -1,25 +1,34 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+
 import "./Form.css";
 
 function AddStudent(props) {
-  const [Register, setRegister] = useState(setUpdateStuednt());
+  const [Register, setRegister] = useState({});
 
+  useEffect(() => {
+    setUpdateStuednt();
+  }, []);
   function setUpdateStuednt() {
     if (props.match.params.updateId) {
-      const updatecand = props.studentsdata.filter(
-        (cand) => cand.id == props.match.params.updateId
-      );
-      console.log("Update candidate", updatecand);
-      return updatecand[0];
+      fetch(
+        `https://61500026a706cd00179b7357.mockapi.io/users/${props.match.params.updateId}`,
+        {
+          method: "GET",
+        }
+      )
+        .then((data) => data.json())
+        .then((stds) => {
+          setRegister(stds);
+        });
     } else {
-      return {
+      setRegister({
         id: "",
         name: "",
         age: "",
         proffesion: "",
         education: "",
         skills: "",
-      };
+      });
     }
   }
 
@@ -105,13 +114,28 @@ function AddStudent(props) {
     // console.log(obj1);
     event.preventDefault();
 
-    console.log(props);
-    //Register.id ? (Register.id = Register.id) : (Register.id = Math.random());
     if (Register.id == "") {
       Register.id = Math.random();
+      fetch("https://61500026a706cd00179b7357.mockapi.io/users", {
+        method: "POST",
+        body: JSON.stringify(Register),
+        headers: { "Content-Type": "application/json", charset: "UTF-8" },
+      }).then((res) => {
+        props.history.push("/home");
+      });
+    } else {
+      fetch(
+        `https://61500026a706cd00179b7357.mockapi.io/users/${Register.id}`,
+        {
+          method: "PUT",
+          body: JSON.stringify(Register),
+          headers: { "Content-Type": "application/json", charset: "UTF-8" },
+        }
+      ).then((res) => {
+        props.history.push("/home");
+      });
     }
-    props.handleSubmit(Register);
-    props.history.push("/home");
+    //props.handleSubmit(Register);
   };
   return (
     <>
